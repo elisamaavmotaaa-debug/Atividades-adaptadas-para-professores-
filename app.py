@@ -48,9 +48,11 @@ if st.button("✨ Gerar Atividade com Inteligência Artificial"):
                 """
                 
                 # Envia para o Gemini resolver
+                model = genai.GenerativeModel('gemini-pro')response = model.generate_content(prompt)
                 response = model.generate_content(prompt)
                 texto_final = response.text
-                
+
+
                 st.markdown("---")
                 st.subheader("📋 Atividade Adaptada Gerada:")
                 
