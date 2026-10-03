@@ -1,5 +1,14 @@
+import subprocess
+import sys
+
+# Garante a instalação do ReportLab caso o servidor do Streamlit não tenha puxado
+try:
+    from reportlab.lib.pagesizes import letter
+except ImportError:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "reportlab"])
+    from reportlab.lib.pagesizes import letter
+
 import streamlit as st
-from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
@@ -31,6 +40,8 @@ if st.button("Gerar Atividade em PDF"):
     story.append(Spacer(1, 15))
     
     story.append(Paragraph("<b>[ ESPAÇO VISUAL: Cole ou desenhe uma imagem sobre o tema aqui ]</b>", box_style))
+    
+    # Tabela corrigida com tamanhos explícitos para o ReportLab rodar sem erros
     data = [["\n\n\n\n"]] 
     t = Table(data, colWidths=[400], rowHeights=[100])
     t.setStyle(TableStyle([('BOX', (0,0), (-1,-1), 1, colors.HexColor("#CBD5E1")), ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#F8FAFC"))]))
